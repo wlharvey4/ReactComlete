@@ -1,0 +1,1064 @@
+\input texinfo @c -*- texinfo -*-
+
+@c ==================================================
+@c NAME:    reactComplete.twjr
+@c VERSION: 2018-01-14 VERSION 0.0.2
+@c DESC:    Notes from React 16-The Complete Guide
+@c BY:      LOLH
+@c NOTES:   
+@c ==================================================
+
+@c ====================
+@c HEADER
+@c ====================
+@c %**start of header
+@setfilename reactComplete.info
+
+@settitle React 16---Complete Guide
+@c %**end of header
+
+@c ====================
+@c SPECIAL DEFINITIONS
+@c ====================
+@iftex
+@c @finalout
+@end iftex
+
+@dquotexrefs
+@allowindexbraces
+@c some special symbols
+@ifnottex
+@macro ii{text}
+@i{\text\}
+@end macro
+@end ifnottex
+
+@c ====================
+@c INDICES SYNTHESIS
+@c ====================
+@ifnothtml
+@synindex fn cp
+@synindex vr cp
+@synindex cd cp
+@synindex cr cp
+@end ifnothtml
+
+@c ====================
+@c DOCUMENT CONSTANTS
+@c ====================
+@set UPDATE-MONTH JANUARY, 2018
+@set EDITION 0.0.2
+@set AUTHOR LOLH
+@set TITLE React 16 --- The Complete Guide
+@set SHORTTITLE React Complete
+@set SUBTITLE (Including React Router and Redux)
+@set COPYRIGHT_YEAR 2018
+@set COPYRIGHT_HOLDER LOLH
+
+@iftex
+@set DOCUMENT book
+@set CHAPTER chapter
+@set APPENDIX appendix
+@set SECTION section
+@set SUBSECTION subsection
+@end iftex
+@ifhtml
+@set DOCUMENT Web page
+@set CHAPTER chapter
+@set APPENDIX appendix
+@set SECTION section
+@set SUBSECTION subsection
+@end ifhtml
+@ifinfo
+@set DOCUMENT Info file
+@set CHAPTER major node
+@set APPENDIX major node
+@set SECTION minor node
+@set SUBSECTION node
+@end ifinfo
+@ifdocbook
+@set DOCUMENT book
+@set CHAPTER chapter
+@set APPENDIX appendix
+@set SECTION section
+@set SUBSECTION subsection
+@end ifdocbook
+
+@c ====================
+@c COPYING INFO
+@c ====================
+@c uncomment @insertcopying
+@c to 'emit' this copying
+@c information in TeX
+@c or plain text documents;
+@c add to the Top node for
+@c use in Info or HTML file
+
+@copying
+@c This document is @value{TITLE} @sp 2
+@c This document does @dots{}
+
+@c Copyright @copyright{} @value{COPYRIGHT_YEAR} LOLH @*
+@c by @value{COPYRIGHT_HOLDER} @*
+@c All Rights Reserved
+
+@quotation
+@c Permission is granted to @dots{}
+@end quotation
+
+@sp 2
+This is Edition @value{EDITION} of @cite{@value{TITLE}}.
+@end copying
+
+@c ====================
+@c TITLEPAGE,
+@c COPYRIGHT PAGE,
+@c TABLE OF CONTENTS
+@c HEADINGS
+@c ====================
+@titlepage
+
+@title @value{TITLE}
+@subtitle @value{SUBTITLE}
+@c @subtitle Additional Subtitle
+@author @value{AUTHOR}
+
+@c place the copyright information
+@c on the backside of the titlepage
+@c (printed manual only)
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+
+Published by @dots{}
+
+@end titlepage
+@c page numbering and headings start after end of titlepage
+
+@iftex
+@headings off
+@evenheading @thispage @| @value{DRAFT} @| @strong{@value{SHORTTITLE}}
+@oddheading  @strong{@thischapter} @| @value{DRAFT} @| @thispage
+@end iftex
+
+@c TOC in the printed manual;
+@c consider placing TOC after the main menu;
+@c consider including summarycontents here
+@c or after main menu
+@c @summarycontents
+@contents
+
+@c ====================
+@c TOP NODE
+@c ====================
+@ifnottex
+@ifnotdocbook
+@ifnotxml
+@node Top
+@top React Complete Guide
+
+The complete guide to React 16, React Router, and Redux by Maximilian
+Schwarzmuller
+
+@insertcopying
+@end ifnotxml
+@end ifnotdocbook
+@end ifnottex
+
+@c ====================
+@c MAIN MENU
+@c ====================
+@menu
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+@end detailmenu
+@end menu
+
+@c ====================
+@c PREFATORY MATTER
+@c ====================
+@c PREFACE and FOREWARD
+@c come right after Top node
+@c in 'unnumbered' sections;
+@c consider commenting them out
+
+@node Foreword
+@unnumbered Foreword
+
+@c Foreward text...
+
+@node Preface
+@unnumbered Preface
+
+@c Preface text...
+
+@c     Overview,
+@c     Conventions,
+@c     Acknowledgments
+
+@node Overview
+@unnumberedsec Overview
+
+@c Text and chapter-by-chapter description.
+
+@node Conventions
+@unnumberedsec Conventions
+
+@c Copied mostly verbatim from the gawk manual.
+
+@cindex Texinfo document formatting language
+This @value{DOCUMENT} is written in an enhanced version of
+@uref{http://www.gnu.org/software/texinfo/, Texinfo},
+the GNU documentation formatting language.
+A single Texinfo source file is used to produce both the printed and online
+versions of a program's documentation.
+@ifnotinfo
+Because of this, the typographical conventions
+are slightly different than in other books you may have read.
+@end ifnotinfo
+
+Examples you would type at the command-line are preceded by the common
+shell primary and secondary prompts, @samp{$} and @samp{>}.  Input that
+you type is shown @kbd{like this}.  Output from the command is preceded
+by the glyph ``@print{}''.  This typically represents the command's
+standard output.  Error messages, and other output on the command's
+standard error, are preceded by the glyph ``@error{}''.  For example:
+
+@example
+$ @kbd{echo hi on stdout}
+@print{} hi on stdout
+$ @kbd{echo hello on stderr 1>&2}
+@error{} hello on stderr
+@end example
+
+@ifnotinfo
+In the text, command names appear in @code{this font}, while code segments
+appear in the same font and quoted, @samp{like this}.  Options look
+like this: @option{-f}.  Some things are emphasized @emph{like this},
+and if a point needs to be made strongly, it is done @strong{like this}.
+The first occurrence of a new term is usually its @dfn{definition} and
+appears in the same font as the previous occurrence of ``definition''
+in this sentence.  Finally, file names are indicated like this:
+@file{/path/to/our/file}.
+@end ifnotinfo
+
+@node Acknowledgements
+@unnumberedsec Acknowledgements
+
+@c Acknowledgments here...
+
+@c *************************************************************************
+@c                                MAIN BODY
+@c *************************************************************************
+
+@c ====================
+@c MAIN BODY NODES
+@c ====================
+
+@node Introduction
+@unnumbered Introduction
+@cindex introduction
+
+@heading What React Is
+
+React is a library for creating highly reactive, super fast
+JavaScript-driven web applications.  The JavaScript-driven part is
+important because, since React is a JavaScript library, its about
+writing your web apps in JavaScript.  Since JavaScript runs in the
+browser, it allows you to create super fast web apps that feel like
+mobile apps bcause users don't have to wait for page reloads.
+
+@heading What You Will Learn In This Course
+
+React is probably the most popular JavaScript library you can learn
+these days.  You will learn all of its core features throughout this
+course.  You will learn what React is about, how it works, and why you
+might want to use it.  You will learn how to build components with
+React, how to use Redux for better state management, how to use the
+React Router, doing so while building an entire React application, the
+Burger Builder, utilizing all of the concepts learned in this course,
+giving you a solid understanding of all of the concepts taught
+throughout this course.
+
+@heading What You Will Be Able To Do
+
+By the end of the course you will therefore have way more than just a
+solid understanding of React; you'll be able to dive deeper into more
+challenging projects and apply for React developer jobs or become a
+freelance React developer.
+
+@heading About This Course
+
+Dive in and learn React from scratch! Learn Reactjs, Redux, React
+Routing, Animations, Next.js basics and way more!
+
+@itemize
+@item
+Lectures: 418
+
+@item
+Video: 33.5 hours
+@end itemize
+
+@node Description
+@section Description
+@cindex description
+
+@subheading What's this course about?
+
+Learn React or dive deeper into it. Learn the theory, solve assignments,
+practice in demo projects and build one big application which is
+improved throughout the course: The Burger Builder!
+
+@subheading More details please!
+
+JavaScript is the major driver of modern web applications since it's the
+only programming language which runs in the browser and hence allows you
+to provide highly reactive apps. You'll be able to achieve mobile-app
+like user experiences in the web.
+
+But using JavaScript can be challenging - it quickly becomes
+overwhelming to create a nice web app with vanilla JavaScript and jQuery
+only.
+
+@subheading React to the rescue!
+
+React is all about components - basically custom HTML elements - with
+which you can quickly build amazing and powerful web apps. Just build a
+component once, configure it to your needs, dynamically pass data into
+it (or listen to your own events!) and re-use it as often as needed.
+
+Need to display a list of users in your app? It's as simple as creating
+a "User" component and outputting it as often as needed.
+
+This course will start at the very basics and explain what exactly React
+is and how you may use it (and for which kind of apps). Thereafter,
+we'll go all the way from basic to advanced. We'll not just scratch the
+surface but dive deeply into React as well as popular libraries like
+react-router and Redux.
+
+By the end of the course, you can build amazing React (single page)
+applications!
+
+A detailed list with the course content can be found below.
+
+@subheading Who's teaching you in this course?
+
+My name is Maximilian Schwarzmüller, I'm a freelance web developer and
+worked with React in many projects. I'm also a 5-star rated instructor
+here on Udemy. I cover React's most popular alternatives - Vue and
+Angular - as well as many other topics. I know what I'm talking about
+and I know where the pain points can be found.
+
+It's my goal to get you started with React as quick as possible and
+ensure your success. But I don't just focus on students getting
+started. I want everyone to benefit from my courses, that's why we'll
+dive deeply into React and why I made sure to also share knowledge
+that's helpful to advanced React developers.
+
+@subheading Is this course for you?
+
+This course is for you if @dots{}
+
+@itemize
+@item
+you're just getting started with frontend/ JavaScript development and
+only got the JS basics set (no prior React or other framework experience
+is required!)
+
+@item
+you're experienced with Angular or Vue but want to dive into React
+
+@item
+know the React basics but want to refresh them and/ or dive deeper
+
+@item
+already worked quite a bit with React but want to dive deeper and see it
+all come together in a bigger app
+@end itemize
+
+@subheading What should you bring to succeed in that course?
+
+@itemize
+@item
+HTML + CSS + JavaScript knowledge is required. You don't need to be an
+expert but the basics need to be set
+
+@item
+NO advanced JavaScript knowledge is required, though you'll be able to
+move even quicker through the course if you know next-gen JavaScript
+features like ES6 Arrow functions. A short refresher about the most
+important next-gen features is provided in the course though.
+@end itemize
+
+@subheading What's inside the course?
+
+@itemize
+@item
+The "What", "Why" and "How"
+
+@item
+React Basics (Base features, syntax and concepts)
+
+@item
+How to output lists and conditional content
+
+@item
+Styling of React components
+
+@item
+A deep dive into the internals of React and advanced component features
+
+@item
+How to access Http content from within React apps (AJAX)
+
+@item
+Redux, Redux, Redux ... from basics to advanced!
+
+@item
+Forms and form validation in React apps
+
+@item
+Authentication
+
+@item
+An introduction to unit testing
+
+@item
+An introduction to Next.js
+
+@item
+React app deployment instructions
+
+@end itemize
+
+@subheading What are the requirements?
+
+@itemize
+@item
+JavaScript + HTML + CSS fundamentals are absolutely required
+@item
+You DON'T need to be a JavaScript expert to succeed in this course!
+@item
+ES6+ JavaScript knowledge is beneficial but not a must-have
+@item
+NO prior React or any other JS framework experience is required!
+@end itemize
+
+@subheading What am I going to get from this course?
+
+@itemize
+@item
+Build powerful, fast, user-friendly and reactive web apps
+@item
+Provide amazing user experiences by leveraging the power of JavaScript with ease
+@item
+Apply for high-paid jobs or work as a freelancer in one the most-demanded sectors you can find in web dev right now
+@end itemize
+
+@node About the Instructor
+@section About the Instructor
+@cindex instructor
+
+@subheading Experience as Web Developer
+
+Starting out at the age of 13 I never stopped learning new programming
+skills and languages. Early I started creating websites for friends and
+just for fun as well. This passion has since lasted and lead to my
+decision of working as a freelance web developer and consultant. The
+success and fun I have in this job is immense and really keeps that
+passion burningly alive.
+
+Starting web development on the backend (PHP with Laravel, NodeJS) I
+also became more and more of a frontend developer using modern
+frameworks like Angular or VueJS 2 in a lot of projects. I love both
+worlds nowadays!
+
+As a self-taught developer I had the chance to broaden my horizon by
+studying Business Administration where I hold a Master's degree. That
+enabled me to work in a major strategy consultancy as well as a
+bank. While learning, that I enjoy development more than these fields,
+the time in this sector greatly improved my overall experience and
+skills.
+
+@subheading Experience as Instructor
+
+As a self-taught professional I really know the hard parts and the
+difficult topics when learning new or improving on already-known
+languages. This background and experience enables me to focus on the
+most relevant key concepts and topics. My track record of many 5-star
+rated courses, more than 100.000 students on Udemy as well as a
+successful YouTube channel is the best proof for that.
+
+Whether working as development instructor or teaching Business
+Administration I always received great feedback. The most rewarding
+experience is to see how people find new, better jobs, build awesome web
+applications, acquire amazing projects or simply enjoy their hobby with
+the help of my content.
+
+@node Getting Started
+@chapter Getting Started
+@cindex start
+
+@node What is React?
+@section What is React?
+@cindex react, what it is
+
+@subheading What? Why? How?
+
+A quote from the official React page:
+
+@quotation
+React is a JavaScript library for building User Interfaces.
+@end quotation
+
+@subsubheading JavaScript Library
+
+It is about building JavaScript-driven apps.  React apps run @strong{run
+in the browser}, not on the server.  That gives us a great advantage.
+Things happen instantly because they happen in the user's browser.  The
+user doesn't have to wait for a server response to get a new page or
+render something new.
+
+@subsubheading User Interfaces
+
+User interfaces are what the user sees.  React is all about using
+components for building these.  You can split up any web page into
+components.
+
+@itemize
+@item
+Header Component
+
+@item
+Side Bar Component
+
+@item
+Headline Component
+
+@item
+Content Component
+@end itemize
+
+Why is thinking like this important or useful?  We can build these
+components as contained pieces of code.  We don't need to build the
+entire web page as one big picture.  We can build all these tiny things
+on their own.  This makes working in teams easier, but also while
+working alone.  It makes it easy to keep code manageable.  Components
+can be reused.  React components can be thought of as custom HTML
+elements.
+
+React solve the problem of having to build complex user interfaces with
+what HTML and JavaScript give you by writing maintainable, manageable,
+and reusable pieces of code which you can add to your web app wherever
+you need to use it.
+
+@node Examples
+@section Real World SPAs and React Web Apps
+@cindex examples
+
+@itemize
+@item
+@url{https://reactjs.org, ReactJS Home}
+
+@item
+@url{https://www.udemy.com/courses/search/?q=vue&src=ukw, Udemy Search
+Results Page}
+@end itemize
+
+@node First React Code
+@section Writing Our First React Code
+@cindex code, first
+
+@(example01_ch01_sec01.html@)=
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>First Example Part 0</title>
+  </head>
+  <body>
+    <div class="person">
+      <h1>Donald Duck</h1>
+      <h2>Age: 50</h2>
+    </div>
+    <div class="person">
+      <h1>Mickey Mouse</h1>
+      <h2>Age: 75</h2>
+    </div>
+  </body>
+</html>
+@
+
+@(example01_ch01_sec01.css@)=
+.person {
+  display: inline-block;
+  margin: 10px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 2px #ccc;
+  width: 200px;
+  padding: 20px;
+}
+@
+
+@node Example0 Implementation
+@subsection Example0 Implementation
+
+@subsubheading Ch01_Section01 Make Directories
+@<Makefile Directory Definitions Hook@>=
+ 
+CHAPTER01 := chapter01
+CH01_SECTION01 := ${SOURCE_DIR}/${CHAPTER01}/section01
+
+ALL_DIRECTORIES += ${CH01_SECTION01}
+
+@
+
+@subsubheading Ch01_Section01 Define Filenames
+
+@<Makefile Filename Definitions Hook@>=
+EXAMPLE01 := example01_sec01
+
+@
+
+@<Makefile Move Hook@>=
+.Phony : move-files-ch01-section01
+move-files-ch01-section01 :
+	for file in ${EXAMPLE02}.*; do mv $${file} ${CH01_SECTION01}; done
+
+ALL_FILES += ${EXAMPLE01}
+@
+
+@node Why React?
+@section Why Should We Choose React?
+@cindex why react
+
+@node Alternatives
+@section React Alternatives
+@cindex alternatives
+
+@node Understanding SPAs MPAs
+@section Understanding Single-Page and Multi-Page Applications
+@cindex SPA
+@cindex MPA
+
+@node Course Outline
+@section Course Outline
+@cindex outline
+
+@node Get the Most
+@section How To Get The Most Out Of This Course
+@cindex get the most
+
+@node Resources
+@section Useful Resources and Links
+@cindex resources
+@cindex links
+
+@node JavaScript Refresher
+@chapter Refreshing Next General JavaScript
+@cindex javascript refresher
+
+@node Base Features and Syntax
+@chapter Understanding the Base Features and Syntax
+@cindex base features
+@cindex syntax
+
+@node Lists and Conditionals
+@chapter Working With Lists and Conditionals
+@cindex lists
+@cindex conditionals
+
+@node Styling React Components
+@chapter Styling React Components and Elements
+@cindex styling react
+
+@node Debugging React Apps
+@chapter Debugging React Apps
+@cindex debug
+
+@node Deeper into Components
+@chapter Diving Deeper Into Components and React Internals
+@cindex deeper
+@cindex components, deeper
+@cindex internals, react
+
+@node Burger Builder App
+@chapter A Real App: The Burger Builder
+@cindex burger builder app
+@cindex app, burger builder
+
+@node Web HTTP AJAX
+@chapter Reaching Out To the Web (HTTP/AJAX)
+@cindex web
+@cindex http
+@cindex ajax
+
+@node Accessing a Server
+@chapter Burger Builder Project: Accessing A Server
+@cindex server, accessing
+
+@node Routing
+@chapter Multi-Page Feeling In A Single Page App: Routing
+@cindex routing
+@cindex single page app
+
+@node Adding Routing to App
+@chapter Adding Routing To Our Burger Builder App
+@cindex routing, adding to app
+
+@node Forms and Validation
+@chapter Forms and Forms Validation
+@cindex forms
+@cindex validation
+
+@node Redux
+@chapter Redux
+@cindex redux
+
+@node Adding Redux to App
+@chapter Adding Redux To Our Project
+@cindex redux, adding to app
+
+@node Advanced Redux
+@chapter Redux Advanced
+@cindex redux, advanced
+
+@node Advanded Redux in App
+@chapter Redux Advanced: Burger Project
+@cindex redux, advanced, in app
+
+@node Authentication
+@chapter Adding Authentication To Our Burger Project
+@cindex authentication
+
+@node  Improving App
+@chapter Improving Our Burger Project
+@cindex app, improving
+
+@node Testing
+@chapter Testing
+@cindex testing
+
+@node Deploying App
+@chapter Deploying The App To The Web
+@cindex deploying
+@cindex web, deploying to
+
+@node Webpack
+@chapter Working With Webpack
+@cindex webpack
+
+@node Next.js
+@chapter Next.js
+@cindex next.js
+
+@node Animations
+@chapter Animations In React Apps
+@cindex animations
+
+@node Redux Saga
+@chapter A Brief Introduction To Redux Saga
+@cindex redux saga
+
+@node CSS
+@chapter Building The Burger CSS
+@cindex css
+
+@node Course Roundup
+@chapter Next Steps And Course Roundup
+@cindex roundup
+
+@c *************************************************************************
+@c                            END MAIN BODY
+@c *************************************************************************
+
+@c ====================
+@c APPENDICES
+@c ====================
+
+@node Appendix One
+@appendix Appendix One
+
+@node Makefile Appendix
+@appendix Makefile Appendix
+
+@node Makefile Definitions
+@appendixsec Makefile Initial Definitions
+
+@(Makefile@)=
+####################
+# MAKEFILE
+####################
+@<Makefile Default Targets@>
+@<Makefile Meta@>
+@<Makefile Constants@>
+@<Makefile Directory Creation@>
+@<Makefile Clean Targets@>
+@<Makefile Move Hook@>
+@<Makefile Move JS To Source@>
+@<Makefile Move HTML@>
+@
+
+@node Makefile Constants
+@appendixsubsec Makefile Constant Definitions
+
+@<Makefile Constants@>=
+ 
+####################
+# CONSTANTS
+####################
+@<Makefile Directory Definitions@>
+@<Makefile Filename Definitions@>
+@
+
+@node Directory Definitions
+@appendixsubsubsec Makefile Directory Definitions
+
+@<Makefile Directory Definitions@>=
+ 
+####################
+# Directories
+####################
+PREFIX := .
+SOURCE_DIR := ${PREFIX}/src
+PUBLIC_DIR := ${PREFIX}/public
+JS_DIR := ${SOURCE_DIR}/js
+HTML_DIR := ${SOURCE_DIR}/html
+CSS_DIR := ${SOURCE_DIR}/css
+
+ALL_DIRECTORIES := ${SOURCE_DIR} ${PUBLIC_DIR} ${JS_DIR} ${HTML_DIR} ${CSS_DIR}
+@<Makefile Directory Definitions Hook@>
+@
+
+@node Makefile Directory Creation
+@appendixsubsubsec Makefile Directory Creation Targets
+
+@<Makefile Directory Creation@>=
+####################
+# DIRECTORY CREATION
+####################
+.Phony : ${SOURCE_DIR}
+${SOURCE_DIR} :
+	mkdir -p ${SOURCE_DIR}
+
+.Phony : ${PUBLIC_DIR}
+${PUBLIC_DIR} :
+	mkdir -p ${PUBLIC_DIR}
+
+.Phony : ${HTML_DIR}
+${HTML_DIR} :
+	mkdir -p ${HTML_DIR}
+
+@
+
+@node Filename Definitions
+@appendixsubsubsec Makefile Filename Definitions
+
+@<Makefile Filename Definitions@>=
+ 
+####################
+# Filenames
+####################
+FILENAME := reactComplete
+TWJR_FILENAME := ${FILENAME}.twjr
+TEXI_FILENAME := ${FILENAME}.texi
+INFO_FILENAME := ${FILENAME}.info
+EXTENSIONS := .{js,html,css}
+
+@<Makefile Filename Definitions Hook@>
+
+@
+
+@node Makefile Default Targets
+@appendixsubsec Makefile Default Targets
+
+@<Makefile Default Targets@>=
+####################
+# DEFAULT TARGETS
+####################
+.Phony : all
+all : meta create-dirs move-files
+
+.Phony : meta
+meta : tangle weave
+
+.Phony : create-dirs
+create-dirs :
+	for dir in ${ALL_DIRECTORIES}; do mkdir -p $${dir}; done
+
+.Phony : move-files
+move-files : ${ALL_FILES}
+
+@
+
+@<Makefile Meta@>=
+####################
+# META
+####################
+@<Makefile Tangle@>
+@<Makefile Weave@>
+@<Makefile Info@>
+@
+
+@node Makefile Tangle
+@appendixsubsubsec Makefile Tangle
+
+@<Makefile Tangle@>=
+.Phony : tangle
+tangle :
+	jrtangle ${TWJR_FILENAME}
+
+@
+
+@node Makefile Weave
+@appendixsubsubsec Meta Weave
+
+@<Makefile Weave@>=
+.Phony : weave
+weave : ${TEXI_FILENAME}
+
+${TEXI_FILENAME} : ${TWJR_FILENAME}
+	jrweave ${TWJR_FILENAME} > ${TEXI_FILENAME}
+
+@
+
+@node Makefile Info
+@appendixsubsubsec Makefile Info
+
+@<Makefile Info@>=
+.Phony : info
+info : ${INFO_FILENAME}
+
+${INFO_FILENAME} : ${TEXI_FILENAME}
+	makeinfo ${TEXI_FILENAME}
+
+@
+
+@node Makefile Clean Targets
+@appendixsubsec Makefile Clean Targets
+
+@node Makefile Clean
+@appendixsubsubsec Makefile Clean Definition
+
+@<Makefile Clean Targets@>=
+####################
+# CLEAN TARGETS
+####################
+@<Makefile Clean@>
+@<Makefile Very Clean@>
+@<Makefile Dist Clean@>
+@
+
+@<Makefile Clean@>=
+.Phony : clean
+clean :
+	rm -vf *~
+
+@
+
+@node Make Very Clean
+@appendixsubsubsec Makefile Very Clean
+@<Makefile Very Clean@>=
+.Phony : very-clean
+very-clean : clean
+	rm -f *${EXTENSIONS}
+	find -d ${PREFIX} -type f -not \( -path *node_modules* -or -path *.git* \) -exec rm {} \;
+	find -d ${PREFIX} -type d -not \( -path *.git* -or -path . -or -path .. \) -exec rmdir {} \;
+
+@
+
+@node Makefile Dist Clean
+@appendixsubsubsec Meta Dist Clean Definition
+
+@<Makefile Dist Clean@>=
+.Phony : dist-clean
+dist-clean : very-clean
+	rm -f *.texi
+	rm -f *.info
+
+@
+
+@node Makefile Move Targets
+@appendixsubsec Makefile Move Targets
+
+@node Makefile Move Hook
+@appendixsubsubsec Makefile Move Hook
+
+Use this hook for moving files to a different directory
+than Source; it will execute just prior to the next
+code block moving all .js files to Source.
+
+@<Makefile Move Hook@>=
+@
+
+@node Makefile Move JS
+@appendixsubsubsec Makefile Move JS To Source
+
+@<Makefile Move JS To Source@>=
+.Phony : move-js-to-source
+move-js-to-source : | ${SOURCE_DIR}
+	find ${PREFIX} -depth=1 -name \*.js -exec mv {} ${SOURCE_DIR} \;
+
+@
+
+@node Makefile Move HTML
+@appendixsubsubsec Makefile Move HTML
+
+@<Makefile Move HTML@>=
+.Phony : move-html
+move-html : | ${HTML_DIR}
+	find ${PREFIX} -depth=1 -name \*.html -exec mv {} ${HTML_DIR}\;
+
+@
+
+@node Code Chunk Summaries
+@appendix Code Chunk Summaries
+
+This @value{APPENDIX} presents alphabetical lists of
+all the file definitions, the code chunk definitions,
+and the code chunk references.
+
+@node File Definitions
+@appendixsec Source File Definitions
+
+@print_file_defs
+
+@node Code Chunk Definitions
+@appendixsec Code Chunk Definitions
+
+@print_code_defs
+
+@node Code Chunk References
+@appendixsec Code Chunk References
+
+@print_code_refs
+
+@c ====================
+@c BIBLIOGRAPHY; INDEX; END
+@c ====================
+
+@node Bibliography
+@unnumbered Bibliography
+
+@node Concept Index
+@unnumbered Index
+
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@bye
+
+@c ====================
+@c TODOs
+@c ====================
+
+1. Create a script to fill in named variables
+1.1 twjr
+1.1.1 init [--dir <directory>]
+1.1.2 config
+1.1.3 weave [--info --pdf --html --xml --docbook]
+1.1.4 tangle [--file <filename>]

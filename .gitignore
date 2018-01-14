@@ -1,0 +1,7 @@
+*~
+*.texi
+*.info
+*.css
+*.html
+*.js
+Makefile
